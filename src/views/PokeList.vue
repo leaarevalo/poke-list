@@ -1,21 +1,38 @@
 <script setup>
 import PokeListItem from '@/components/PokeListItem.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { usePokedexStore } from '@/stores/pokedex';
 const store = usePokedexStore();
 const pokemons = ref([]);
+const pokemonsFiltered = ref([]);
+const search = ref('');
+
 onMounted(async () => {
-  console.log('PokeList component mounted');
   await store.fetchPokemons();
   pokemons.value = store.pokemons;
+});
+watch(search, (value) => {
+  if(value === '') {
+    pokemonsFiltered.value = [];
+    return;
+  } else {
+    pokemonsFiltered.value = pokemons.value.filter((pokemon) => pokemon.name.includes(value));
+  }
 });
 </script>
 
 <template>
   <div class="pokelist">
-    <input class="pokelist-input" type="text">
-    <div v-for="pokemon in pokemons" :key="pokemon.id">
-      <PokeListItem :pokemonName="pokemon.name" />
+    <input class="pokelist-input" type="text" v-model="search" placeholder="Search" />
+    <div v-if="pokemonsFiltered.length > 0">
+      <div v-for="pokemon in pokemonsFiltered" :key="pokemon.name">
+        <PokeListItem :pokemonName="pokemon.name" />
+      </div>
+    </div>
+    <div v-else>
+      <div v-for="pokemon in pokemons" :key="pokemon.name">
+        <PokeListItem :pokemonName="pokemon.name" />
+      </div>
     </div>
   </div>
 </template>
