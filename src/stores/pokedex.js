@@ -5,7 +5,8 @@ export const usePokedexStore = defineStore('pokedex', {
     pokemons: [],
     favoritesPokemons: [],
     pokemonDetails: {},
-    isLoading: false
+    isLoading: true,
+    isPokeDetaisLoading: false,
   }),
   actions: {
     async fetchPokemons() {
@@ -20,13 +21,13 @@ export const usePokedexStore = defineStore('pokedex', {
       this.isLoading = false
     },
     async fetchPokemonDetails(name) {
-      this.isLoading = true
+      this.isPokeDetaisLoading = true
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
       const data = await response.json()
       const isFavorite = this.favoritesPokemons.some(poke => poke.name === name);
       this.pokemonDetails = data;
       this.pokemonDetails.isFavorite = isFavorite;
-      this.isLoading = false
+      this.isPokeDetaisLoading = false
     },
     removeSelection() {
       this.pokemonDetails = {};

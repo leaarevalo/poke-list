@@ -1,11 +1,13 @@
 <script setup>
 import PokeListItem from '@/components/PokeListItem.vue';
 import PokeDetails from '@/components/PokeDetails.vue';
+import Loading from '@/components/Loading.vue';
 import { onMounted, ref, watch, computed } from 'vue';
 import { usePokedexStore } from '@/stores/pokedex';
 const store = usePokedexStore();
 const pokemons = ref([]);
 const pokemonsFavorites = computed(() => store.getFavoritesPokemons);
+const isLoading = computed(() => store.isLoading ? store.isLoading : false);
 const pokemonsFiltered = ref([]);
 const search = ref('');
 const isAllActive = ref(true);
@@ -32,6 +34,9 @@ const handleIsAllClickButton = () => {
 };
 
 const handleIsFavoritesClickButton = () => {
+  if (pokemonsFavorites.value.length === 0) {
+    return;
+  }
   pokemons.value = pokemonsFavorites.value;
   isAllActive.value = false;
 };
@@ -61,6 +66,10 @@ watch(search, (value) => {
 
 <template>
   <div class="pokelist">
+    <div class="pokelist-loading" v-if="isLoading">
+      <Loading />
+    </div>
+    <div v-else class="pokelist-list">
     <input class="pokelist-input" type="text" v-model="search" placeholder="Search" />
     <PokeDetails />
     <div v-if="pokemonsFiltered.length > 0">
@@ -94,9 +103,25 @@ watch(search, (value) => {
       </div>
     </div>
   </div>
+</div>
 </template>
 
-<style>
+<style scoped>
+.pokelist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  text-align: center;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: #F9F9F9;
+}
+.pokelist-list {
+  height: 100vh;
+}
 .pokelist-input {
   width: 315px;
   height: 50px;
@@ -107,6 +132,10 @@ watch(search, (value) => {
   text-indent: 38px;
   background-color: white;
   margin-bottom: 40px;
+  @media (min-width: 1024px) {
+    width: 570px;
+    top: 0px;
+  }
 }
 .footer-list {
   width: 100%;
@@ -120,6 +149,9 @@ watch(search, (value) => {
   left: 0;
   right: 0;
   padding: 18px 30px;
+  @media (min-width: 1024px) {
+    justify-content: center;
+  }
 }
 .footer-button {
   background-color: red;
@@ -133,6 +165,10 @@ watch(search, (value) => {
   font-size: 16px;
   font-family: 'Lato';
   font-weight: 700;
+  @media (min-width: 1024px) {
+    width: 275px;
+    margin-left: 20px;
+  }
   
   img {
     margin-right: 10px;
