@@ -2,8 +2,10 @@
 import { computed } from 'vue';
 import { usePokedexStore } from '@/stores/pokedex';
 import StartButton from './molecules/StarButton.vue';
+import Loading from './Loading.vue';
 
 const store = usePokedexStore();
+const isPokemonDetailsLoading = computed(() => store.isPokemonDetailsLoading);
 const selectedPokemon = computed(() => {
     const pokemon = store.getSelectedPokemon;
     //formattedTypesWithFirstChartInUppercase
@@ -33,7 +35,10 @@ const closeModal = () => {
 
 <template>
     <div class="modal" id="pokemonModal">
-        <div class="modal-content">
+        <div v-if="isPokemonDetailsLoading">
+            <Loading />
+        </div>
+        <div v-else class="modal-content">
             <div class=modal-header>
                 <div class=modal-header-close @click="closeModal">
                     <img src="./icons/icon_close.svg" alt="iconClose"/>
@@ -78,6 +83,10 @@ const closeModal = () => {
     width: 315px;
     height: 550px;
     background-color: white;
+    border-radius: 5px;
+    @media (min-width: 1024px) {
+        width: 570px;
+    }
 }
 
 .modal-header {

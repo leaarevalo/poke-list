@@ -26,7 +26,7 @@ import { RouterLink } from 'vue-router';
 }
 .homeview-image {
   display: relative;
-  width: 500px;
+  width: 400px;
 }
 .homeview-title {
   font-size: 26px;
@@ -41,6 +41,9 @@ import { RouterLink } from 'vue-router';
   font-family: 'Lato';
   font-weight: 500;
   margin-bottom: 50px;
+  @media (min-width: 1024px) {
+    width: 570px;
+  }
 }
 .homeview-button {
   padding: 10px 20px;

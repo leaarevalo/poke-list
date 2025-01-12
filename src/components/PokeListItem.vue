@@ -33,6 +33,10 @@ const handleClickItem = () => {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 10px;
+    @media (min-width: 1024px) {
+        width: 570px;
+    }
 }
 .pokelist-item-text {
     font-size: 22px;
