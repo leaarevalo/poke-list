@@ -2,28 +2,29 @@
 import StartButton from './molecules/StarButton.vue';
 
 const emit = defineEmits(['click', 'itemClick']);
-defineProps(['pokemonName']);
+const props = defineProps(['pokemonName', 'isFavorite']);
 
 const handleClickStarButton = (isButtonEnabled) => {
-    console.log("star button clicked");
-    emit('click', isButtonEnabled);
+    emit('starClick', {name: props.pokemonName, enabled: isButtonEnabled});
 }
 
 const handleClickItem = () => {
-    console.log("item button clicked");
-    emit('itemClick');
+    emit('itemClick', props.pokemonName);
 }
 </script>
 <template>
     <div class="pokelist">
-        <div class="pokelist-item-container" @click.self="handleClickItem">
-            <p class="pokelist-item-text">{{ pokemonName }}</p>
-            <StartButton @click="handleClickStarButton"/>
+        <div class="pokelist-item-container" @click.self.stop="handleClickItem">
+            <p class="pokelist-item-text" @click.self.stop="handleClickItem">{{ pokemonName }}</p>
+            <StartButton :value="isFavorite" @click="handleClickStarButton"/>
         </div>
     </div>
 </template>
 
 <style>
+.pokelist {
+    padding-bottom: 10px;
+}
 .pokelist-item-container {
     width: 315px;
     height: 60px;
@@ -36,5 +37,9 @@ const handleClickItem = () => {
 .pokelist-item-text {
     font-size: 22px;
     color: #353535;
+    padding: 17px 0 17px 20px;
+}
+.pokelist-item-text::first-letter {
+    text-transform: uppercase;
 }
 </style>
