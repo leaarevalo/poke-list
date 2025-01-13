@@ -4,13 +4,15 @@ import PokeDetails from '@/components/PokeDetails.vue';
 import Loading from '@/components/Loading.vue';
 import { onMounted, ref, watch, computed } from 'vue';
 import { usePokedexStore } from '@/stores/pokedex';
+import { storeToRefs } from 'pinia';
 const store = usePokedexStore();
 const pokemons = ref([]);
 const pokemonsFavorites = computed(() => store.getFavoritesPokemons);
-const isLoading = computed(() => store.isLoading ? store.isLoading : false);
 const pokemonsFiltered = ref([]);
 const search = ref('');
+const isLoadingValue = ref(true);
 const isAllActive = ref(true);
+const { isLoading } = storeToRefs(store);
 
 const getPokemonDetails = (pokemonName) => {
   store.fetchPokemonDetails(pokemonName);
@@ -61,11 +63,14 @@ watch(search, (value) => {
     pokemonsFiltered.value = pokemons.value.filter((pokemon) => pokemon.name.includes(value.toLowerCase()));
   }
 });
+watch(isLoading, (value) => {
+  isLoadingValue.value = value;
+}, { immediate: true });
 </script>
 
 <template>
-  <div class="pokelist" :class="{'pokelist--loading': isLoading}">
-    <div class="pokelist-loading" v-if="isLoading">
+  <div class="pokelist" :class="{'pokelist--loading': isLoadingValue}">
+    <div class="pokelist-loading" v-if="isLoadingValue">
       <Loading />
     </div>
     <div v-else class="pokelist-list">
