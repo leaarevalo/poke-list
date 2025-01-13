@@ -42,7 +42,6 @@ const handleIsFavoritesClickButton = () => {
 };
 
 const handleStarClick = ({name, enabled}) => {
-  console.table({name, enabled});
   if(enabled) {
     store.setFavoritePokemon(name);
   } else {
@@ -144,7 +143,7 @@ watch(search, (value) => {
   position: fixed;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   bottom: -3px;
   left: 0;
   right: 0;
@@ -165,6 +164,8 @@ watch(search, (value) => {
   font-size: 16px;
   font-family: 'Lato';
   font-weight: 700;
+  margin-left: 15px;
+  cursor: pointer;
   @media (min-width: 1024px) {
     width: 275px;
     margin-left: 20px;
