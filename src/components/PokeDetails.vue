@@ -31,6 +31,12 @@ const closeModal = () => {
     store.removeSelection();
 }
 
+const handleShareButtonClick = () => {
+    const copyToClipboardInformation = `Name: ${selectedPokemon.value.name}, weight: ${selectedPokemon.value.weight}, height: ${selectedPokemon.value.height}, types: ${selectedPokemon.value.formattedTypes}`;
+    window.alert('Copied to clipboard!');
+    navigator.clipboard.writeText(copyToClipboardInformation);
+}
+
 </script>
 
 <template>
@@ -51,7 +57,7 @@ const closeModal = () => {
                 <p class="modal-body-text"><span class=modal-body-description>Height:</span> <span class="modal-body-features">{{ selectedPokemon.height }}</span></p>
                 <p class="modal-body-text"><span class=modal-body-description>Types:</span> <span class="modal-body-features">{{ selectedPokemon.formattedTypes }}</span></p>
                 <div class="modal-body-buttons">
-                    <div class="modal-body-button">
+                    <div class="modal-body-button" @click="handleShareButtonClick">
                         <p>Share to my friends</p> 
                     </div>
                     <div class="modal-body-star-button">
