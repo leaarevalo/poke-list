@@ -64,7 +64,7 @@ watch(search, (value) => {
 </script>
 
 <template>
-  <div class="pokelist">
+  <div class="pokelist" :class="{'pokelist--loading': isLoading}">
     <div class="pokelist-loading" v-if="isLoading">
       <Loading />
     </div>
@@ -117,6 +117,9 @@ watch(search, (value) => {
   height: 100%;
   width: 100%;
   background-color: #F9F9F9;
+}
+.pokelist-loading {
+  height: 100vh;
 }
 .pokelist-list {
   height: 100vh;
