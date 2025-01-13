@@ -11,6 +11,10 @@ export const usePokedexStore = defineStore('pokedex', {
   actions: {
     async fetchPokemons() {
       this.isLoading = true
+      if(this.pokemons.length > 0) {
+        this.isLoading = false;
+        return;
+      }
       const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
       const data = await response.json()
       this.pokemons = data.results.map(pokemon => ({
