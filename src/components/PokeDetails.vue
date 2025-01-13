@@ -84,13 +84,14 @@ const handleShareButtonClick = () => {
 }
 
 .modal-content {
-    margin: 15% auto;
+    margin: 153px auto;
     border: 1px solid #888;
     width: 315px;
     height: 550px;
     background-color: white;
     border-radius: 5px;
     @media (min-width: 1024px) {
+        margin: 97px auto;
         width: 570px;
     }
 }
